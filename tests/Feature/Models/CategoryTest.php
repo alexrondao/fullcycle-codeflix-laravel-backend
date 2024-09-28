@@ -93,6 +93,18 @@ class CategoryTest extends TestCase
         }
     }
 
+    public function testDelete()
+    {
+        $category = factory(Category::class)->create([
+            'name' => 'test_delete',
+            'description' => 'test_description_delete',
+            'is_active' => true
+        ]);
+
+        $category->delete();
+        $this->assertNull(Category::find($category->id));
+    }
+
     public function testUuidIsValid()
     {
         $category = factory(Category::class)->create([

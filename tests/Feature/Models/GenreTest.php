@@ -75,6 +75,17 @@ class GenreTest extends TestCase
         }
     }
 
+    public function testDelete()
+    {
+        $genre = factory(Genre::class)->create([
+            'name' => 'test_delete',
+            'is_active' => true
+        ]);
+
+        $genre->delete();
+        $this->assertNull(Genre::find($genre->id));
+    }
+
     public function testUuidIsValid()
     {
         $genre = factory(Genre::class)->create([
