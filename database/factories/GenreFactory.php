@@ -2,12 +2,12 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Gender;
+use App\Models\Genre;
 use Faker\Generator as Faker;
 
-$factory->define(Gender::class, function (Faker $faker) {
+$factory->define(Genre::class, function (Faker $faker) {
     return [
-        'name' => $faker->colorName,
+        'name' => $faker->monthName,
         'is_active' => $faker->boolean()
     ];
 });
