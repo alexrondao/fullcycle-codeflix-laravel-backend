@@ -39,6 +39,7 @@ class GenreTest extends TestCase
         ]);
         $genre->refresh();
 
+        $this->assertEquals(36, strlen($genre->id));
         $this->assertEquals('test1', $genre->name);
         $this->assertTrue($genre->is_active);
 
@@ -84,6 +85,9 @@ class GenreTest extends TestCase
 
         $genre->delete();
         $this->assertNull(Genre::find($genre->id));
+
+        $genre->restore();
+        $this->assertNotNull(Genre::find($genre->id));
     }
 
     public function testUuidIsValid()
@@ -94,9 +98,14 @@ class GenreTest extends TestCase
             'is_active' => true
         ]);
         
-        $pattern = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
+        //valida se o uuid é uma string
+        $this->assertTrue(is_string($genre->id));
 
-        //$this->assertRegExp($pattern, $genre->id, $message);
-        $this->assertFalse(!is_string($genre->id) || (preg_match($pattern, $genre->id) !== 1));
+        //valida se o uuid tem 36 caracteres
+        $this->assertEquals(36, strlen($genre->id));
+
+        //valida se o uuid tem uma estrutura correta de um guid
+        $pattern = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
+        $this->assertFalse(preg_match($pattern, $genre->id) !== 1);
     }
 }

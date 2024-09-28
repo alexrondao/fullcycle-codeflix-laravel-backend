@@ -39,6 +39,7 @@ class CategoryTest extends TestCase
         ]);
         $category->refresh();
 
+        $this->assertEquals(36, strlen($category->id));
         $this->assertEquals('test1', $category->name);
         $this->assertNull($category->description);
         $this->assertTrue($category->is_active);
@@ -103,6 +104,9 @@ class CategoryTest extends TestCase
 
         $category->delete();
         $this->assertNull(Category::find($category->id));
+
+        $category->restore();
+        $this->assertNotNull(Category::find($category->id));
     }
 
     public function testUuidIsValid()
@@ -112,9 +116,15 @@ class CategoryTest extends TestCase
             'description' => 'test_description_uuid',
             'is_active' => true
         ]);
-        
-        $pattern = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
 
-        $this->assertFalse(!is_string($category->id) || (preg_match($pattern, $category->id) !== 1));
+        //valida se o uuid é uma string
+        $this->assertTrue(is_string($category->id));
+
+        //valida se o uuid tem 36 caracteres
+        $this->assertEquals(36, strlen($category->id));
+
+        //valida se o uuid tem uma estrutura correta de um guid
+        $pattern = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
+        $this->assertFalse(preg_match($pattern, $category->id) !== 1);
     }
 }
