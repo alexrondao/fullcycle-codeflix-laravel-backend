@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\CastMember;
 use Illuminate\Database\Seeder;
 
-class CategorySeeder extends Seeder
+class CastMembersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(CastMember::class, 100)->create();
     }
 }
